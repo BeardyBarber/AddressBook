@@ -55,7 +55,7 @@ Please read [this](https://www.contributor-covenant.org/version/1/4/code-of-cond
 
 ## Authors
 
-* **Karol Majchrzak** - *Initial work* - [PurpleBooth](https://github.com/BeardyBarber)
+* **Karol Majchrzak** - *Initial work* - [BeardyBarber](https://github.com/BeardyBarber)
 
 See also the list of [contributors](https://github.com/BeardyBarber/AddressBook/contributors) who participated in this project.
 
