@@ -8,6 +8,8 @@ Simple Flask aplication for managing very simple contacts. Can be used as a base
 
 ### Prerequisites
 
+As it is Python project you need Python 3. After installing it follow steps:
+
 For prerequisites instalation run 
 
 ```
