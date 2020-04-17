@@ -20,25 +20,25 @@ Also for production please use PostgreSQL database instead of SQLite (see `insta
 
 Set variables in `instance\config.py` or your `Environment` variables - more [info](https://flask.palletsprojects.com/en/1.1.x/config/#configuring-from-environment-variables).
 
-#####Initialize the db
+##### Initialize the db
 
 ```
 flask db init
 ```
 
-#####Prepare the db migration
+##### Prepare the db migration
 
 ```
 flask db migrate
 ```
 
 
-#####Run database upgrade
+##### Run database upgrade
 ```
 flask db upgrade
 ```
 
-#####Run the application
+##### Run the application
 
 ```
 flask run
