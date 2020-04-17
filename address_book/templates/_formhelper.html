@@ -1,0 +1,27 @@
+{% macro render_field(field) %}
+<div class="uk-margin-small ">
+    <div class="uk-inline">
+        {% if field.id != 'csrf_token' %}
+        {% if field.type=='StringField' or field.type == 'PasswordField' %}
+        <span class="uk-form-icon" uk-icon="icon: {{ kwargs.icon }}"></span>
+        {% if field.errors %}
+        {% set css_class = 'uk-form-danger ' + kwargs.pop('class_', '') %}
+        {{ field(class=css_class, **kwargs) }}
+        {% else %}
+        {{ field(**kwargs) }}
+        {% endif %}
+
+    </div>
+    {% if field.errors %}
+    <div class="uk-text-danger uk-container uk-text-middle uk-text-left uk-margin-remove">
+        {% for error in field.errors %}
+        <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% elif field.type =='BooleanField' %}
+    {{ field(**kwargs) }} {{ field.label }}
+    {% endif %}
+    {% endif %}
+</div>
+{% endmacro %}

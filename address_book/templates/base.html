@@ -1,0 +1,75 @@
+{% block title %}
+<title>{{ title }} - Address Book</title>
+{% endblock %}
+
+
+{% block styles %}
+<!-- UIkit CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.4.1/dist/css/uikit.min.css"/>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="uk-background-secondary uk-section">
+    <h1 class="uk-heading-medium uk-heading-line uk-text-center" style="color:#dddddd">
+        <span>ADDRESS BOOK</span>
+    </h1>
+</div>
+
+{% block navbar %}
+<nav class="uk-navbar-container uk-container uk-container-center uk-width-4-6" uk-navbar>
+    <div class="uk-width-1-6"></div>
+    <div class="uk-navbar-left">
+        <a class="uk-navbar-item uk-logo uk-text-bold" href="{{ url_for('site.index') }}"
+           uk-icon="icon: home; ratio: 2"></a>
+        {% if current_user.is_authenticated %}
+        <div class="uk-navbar-item">
+            <a class="uk-link" href="{{ url_for('site.add_contact') }}" uk-icon="icon: plus; ratio:2 "></a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="uk-navbar-right">
+        {% if current_user.is_authenticated %}
+        <div class="uk-navbar-item uk-text-large">
+            <div>Logged in as: <b
+                    class="uk-text-bold">{{ current_user.username.capitalize() }}</b></div>
+        </div>
+        {% endif %}
+        {% if current_user.is_anonymous %}
+        <a class="uk-navbar-item uk-logo uk-text-bold" href="{{ url_for('site.login') }}"
+           uk-icon="icon: sign-in; ratio: 2"></a>
+        {% else %}
+        <a class="uk-navbar-item uk-logo uk-text-bold" href="{{ url_for('site.logout') }}"
+           uk-icon="icon: sign-out; ratio: 2"></a>
+        {% endif %}
+    </div>
+    <div class="uk-width-1-6"></div>
+</nav>
+{% endblock %}
+<div class="uk-container uk-position-top-right uk-margin-small">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div uk-alert class="{{ category }} uk-text-large">
+
+        <a class="uk-alert-close" uk-close></a>
+        <p class="uk-margin-right">{{ message }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+
+<div class="uk-container uk-container-center">
+    {% block content %}
+    {% endblock %}
+</div>
+
+{% block scripts %}
+<!-- UIkit JS -->
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.4.1/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.4.1/dist/js/uikit-icons.min.js"></script>
+{% endblock %}
+{% endblock %}

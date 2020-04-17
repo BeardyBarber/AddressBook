@@ -1,17 +1,32 @@
+from datetime import datetime
+
 from flask_login import UserMixin
+from sqlalchemy import Sequence
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import db, login
-from datetime import datetime
+from .components import db, login
 
 
 @login.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+    return User.query.get(id)
+
+
+@login.request_loader
+def load_user(request):
+    token = request.headers.get('Authorization')
+    if token is None:
+        token = request.args.get('token')
+    if token is not None:
+        username, password = token.split(":")  # naive token
+        user = User.query.filter_by(username=username).first()
+        if user.check_password(password):
+            return user
+    return None
 
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, Sequence('user_id_seq'), primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
@@ -23,8 +38,8 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def get_contacts(self):
-        contacts = Contact.query.filter_by(user_id=self.id)
+    def get_contacts(self, **kwargs):
+        contacts = Contact.query.filter_by(user_id=self.id, **kwargs)
         return contacts
 
     def __repr__(self):
@@ -45,8 +60,11 @@ class Contact(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def get_user(self):
-        user = User.query.filter_by(id=self.user_id).first()
+        user = User.query.get(self.user_id)
         return user
 
     def __repr__(self):
         return '<Contact {}{}>'.format(self.name, self.surname)
+
+    def as_dict(self):
+        return {"id": self.id, "name": self.name, "surname": self.surname, "email": self.email, "phone": self.phone}

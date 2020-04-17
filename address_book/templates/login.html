@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_formhelper.html" import render_field %}
+{% block content %}
+<div class="uk-container uk-container-center uk-width-1-2">
+    <div class="uk-card uk-card-default uk-card-body uk-card-large uk-text-center uk-box-shadow-large">
+        <p class="uk-heading-small">Sign In</p>
+        <form method="POST" action="/login">
+            <div class="uk-container uk-width-1-2 uk-text-large">
+                {{ form.csrf_token }}
+                {{ render_field(form.username, class_="uk-input", icon='user', placeholder='Username') }}
+                {{ render_field(form.password, class_="uk-input",icon='lock',placeholder = 'Password') }}
+                <div class="uk-align-left uk-margin-remove-bottom">
+                    {{ render_field(form.remember_me, class_='uk-checkbox') }}
+                </div>
+            </div>
+            <input class="uk-button-default uk-button uk-width-1-2" type="submit" value="Login">
+        </form>
+    </div>
+    New User? <a href="{{ url_for('site.register') }}">Click to Register!</a>
+</div>
+</div>
+
+{% endblock %}

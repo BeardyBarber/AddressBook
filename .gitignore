@@ -9,7 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 .idea/
-build/
+venv/Lib/site-packages/pip/_internal/operations/build/
 develop-eggs/
 dist/
 downloads/

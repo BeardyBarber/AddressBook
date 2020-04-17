@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, HiddenField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Regexp
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Regexp, InputRequired
 
-from app.models import User
+from address_book.models import User
 
 
 class LoginForm(FlaskForm):
@@ -11,10 +11,23 @@ class LoginForm(FlaskForm):
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
+    def validate(self):
+        initial_validation = super(LoginForm, self).validate()
+        if not initial_validation:
+            return False
+        user = User.query.filter_by(username=self.username.data).first()
+        if not user:
+            self.username.errors.append('Unknown user')
+            return False
+        if not user.check_password(self.password.data):
+            self.password.errors.append('Invalid password')
+            return False
+        return True
+
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    username = StringField('Username*', validators=[InputRequired()])
+    email = StringField('Email*', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -23,20 +36,20 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
-            raise ValidationError('Please use a different username.')
+            raise ValidationError('Username already taken.')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
-            raise ValidationError('Please use a different email address.')
+            raise ValidationError('User with this email exists.')
 
 
 class AddContact(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     surname = StringField('Surname', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email(message="Put an correct email!")])
     phone = StringField('Phone Number',
-                        validators=[Regexp('(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)')])
+                        validators=[Regexp('(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}')])
     submit = SubmitField()
 
 
