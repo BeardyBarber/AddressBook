@@ -8,46 +8,43 @@ Simple Flask aplication for managing very simple contacts. Can be used as a base
 
 ### Prerequisites
 
-As it is Python project you need Python 3. After installing it follow steps:
-
-For prerequisites instalation run 
+This project uses Python 3 and some dependencies which you can satisfy using command:
 
 ```
 pip install -r requirements.txt
 ```
 
-Also for production please use PostgreSQL database instead of SQLite
+Also for production please use PostgreSQL database instead of SQLite (see `instance/config.py`)
 
-### Installing
+### Installation
 
+Set variables in `instance\config.py` or your `Environment` variables - more [info](https://flask.palletsprojects.com/en/1.1.x/config/#configuring-from-environment-variables).
 
-Initialize the db
+#####Initialize the db
 
 ```
 flask db init
 ```
 
-Prepare the db migration
+#####Prepare the db migration
 
 ```
 flask db migrate
 ```
 
-Set proper DATABASE_URL in `Config.py`
 
-
-Run database upgrade
+#####Run database upgrade
 ```
 flask db upgrade
 ```
 
-Run the application
+#####Run the application
 
 ```
 flask run
 ```
 
-Address book app should be running on `http://127.0.0.1:5000/ `
+Address book app should be running on `http://127.0.0.1:5000/`
 
 
 ## Contributing
