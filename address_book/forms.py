@@ -47,7 +47,7 @@ class RegistrationForm(FlaskForm):
 class AddContact(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     surname = StringField('Surname', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email(message="Put an correct email!")])
+    email = StringField('Email', validators=[DataRequired(), Email(message="Put a correct email!")])
     phone = StringField('Phone Number',
                         validators=[Regexp('(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}')])
     submit = SubmitField()
