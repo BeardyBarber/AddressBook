@@ -12,19 +12,6 @@ def load_user(id):
     return User.query.get(id)
 
 
-@login.request_loader
-def load_user(request):
-    token = request.headers.get('Authorization')
-    if token is None:
-        token = request.args.get('token')
-    if token is not None:
-        username, password = token.split(":")  # naive token
-        user = User.query.filter_by(username=username).first()
-        if user.check_password(password):
-            return user
-    return None
-
-
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, Sequence('user_id_seq'), primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
