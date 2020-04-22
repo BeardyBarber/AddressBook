@@ -1,6 +1,6 @@
 # ADDRESS BOOK
 
-Simple Flask aplication for managing very simple contacts. Can be used as a base for further development. 
+A clean Flask aplication for storing and managing basic contacts' information. It can be used as a base for further development. 
 
 ## Getting Started
 
@@ -8,32 +8,32 @@ Simple Flask aplication for managing very simple contacts. Can be used as a base
 
 ### Prerequisites
 
-This project uses Python 3 and some dependencies which you can satisfy using command:
+My Address Book app was developed in Python 3, using a number of dependencies. You can install them by executing the below command in the project folder. I recommend setting up a virtual environment first.
 
 ```
 pip install -r requirements.txt
 ```
 
-Also for production please use PostgreSQL database instead of SQLite (see `instance/config.py`)
+Also, for production please use PostgreSQL database instead of SQLite (see `instance/config.py`).
 
 ### Installation
 
-Set variables in `instance\config.py` or your `Environment` variables - more [info](https://flask.palletsprojects.com/en/1.1.x/config/#configuring-from-environment-variables).
+Edit the variables in `instance\config.py` or your `Environment` variables - more [info](https://flask.palletsprojects.com/en/1.1.x/config/#configuring-from-environment-variables).
 
-##### Initialize the db
+##### Initialize the database
 
 ```
 flask db init
 ```
 
-##### Prepare the db migration
+##### Prepare the database migration
 
 ```
 flask db migrate
 ```
 
 
-##### Run database upgrade
+##### Execute the database upgrade
 ```
 flask db upgrade
 ```

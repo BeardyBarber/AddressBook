@@ -92,7 +92,7 @@ def add_contact():
                           phone=form.phone.data, user_id=current_user.id)
         db.session.add(contact)
         db.session.commit()
-        flash('You added new contact!', 'uk-alert-success')
+        flash('You added a new contact!', 'uk-alert-success')
         return redirect(url_for('site.index'))
     return render_template('add-contact.html', title='Add Contact', form=form)
 
