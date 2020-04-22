@@ -22,20 +22,20 @@ def delete(id):
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    contacts = current_user.get_contacts().all()
+    contacts = current_user.contacts.all()
     form = ContactAction(obj=contacts)
     if form.is_submitted():
         if form.delete.data:
             contact = Contact.query.get(form.id.data)
-            if current_user.id == contact.get_user().id:
+            if current_user.id == contact.user.id:
                 delete(contact.id)
-                contacts = current_user.get_contacts().all()
+                contacts = current_user.contacts.all()
             else:
                 flash("Oops, you can't do that!", 'uk-alert-danger')
             return render_template('index.html', title='Home', contacts=contacts, form=form)
         elif form.edit.data:
-            contact = Contact.query.filter_by(id=form.id.data).first()
-            if current_user.id == contact.get_user().id:
+            contact = Contact.query.get(form.id.data)
+            if current_user.id == contact.user.id:
                 return redirect(url_for('site.edit_contact', id=form.id.data))
             else:
                 flash("Oops, you can't do that!", 'uk-alert-danger')
@@ -100,7 +100,7 @@ def add_contact():
 @bp.route('/edit-contact/<id>', methods=['GET', 'POST'])
 @login_required
 def edit_contact(id):
-    contact = Contact.query.filter_by(id=id).first()
+    contact = Contact.query.get(id)
     form = AddContact(obj=contact)
     if form.is_submitted() and form.validate():
         contact.name = form.name.data
